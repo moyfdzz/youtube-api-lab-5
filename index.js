@@ -3,7 +3,6 @@ function fetchVideos() {
     let apiKey = 'AIzaSyDiQtgSkoS73Sg6DY5nr_CKm0gnbHRbIbo';
     let baseURL = `https://www.googleapis.com/youtube/v3`;
     let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${userInput}&type=video&maxResults=10&key=${apiKey}`;
-    //https://www.googleapis.com/youtube/v3/search?part=snippet&q=$Trump&type=video&videoCaption=closedCaption&key=AIzaSyDiQtgSkoS73Sg6DY5nr_CKm0gnbHRbIbo
 
     $.ajax({
         url : url,
@@ -30,7 +29,7 @@ function displayResults(responseJSON) {
         let url = `https://www.youtube.com/watch?v=${videoID}`;
 
         results.append(`<div class="video">
-            <a href="${url}" target="_blank"> ${videoTitle} </a>
+            <p> <a href="${url}" target="_blank">${videoTitle}</a> </p>
             <a href="${url}" target="_blank"> <img src=${img} /> </a>
         </div>`);
     })
