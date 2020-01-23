@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>YouTube API</title>
+    <title>YouTube</title>
     <link href="./index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div>
-      <h1>YouTube API</h1>
+      <h1>YouTube</h1>
       <form id="videos">
         <label>Type keyword:</label>
-        <input type="text" id="userInput">
+        <input type="text" id="userInput" placeholder="Search">
         <button type="submit">
           Search videos
         </button>
@@ -19,7 +19,14 @@
     </div>
     <div id="results">
     </div>
-
+    <div id="buttons">
+        <button type="submit" id="prevButton" class="hideButtons">
+            Anterior
+        </button>
+        <button type="submit" id="nextButton" class="hideButtons">
+            Siguiente
+        </button>
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.4.1.js"
       integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

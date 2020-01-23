@@ -1,14 +1,23 @@
-function fetchVideos() {
+let req;
+
+function fetchVideos(pageToken) {
+    $('#results').empty();
     let userInput = $('#userInput').val();
     let apiKey = 'AIzaSyDiQtgSkoS73Sg6DY5nr_CKm0gnbHRbIbo';
-    let baseURL = `https://www.googleapis.com/youtube/v3`;
-    let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${userInput}&type=video&maxResults=10&key=${apiKey}`;
+    let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${userInput}&type=video&maxResults=10&key=${apiKey}&pageToken=${pageToken}`;
+
+    if (userInput === '') {
+        console.log("The user input is empty.");
+
+        return;
+    }
 
     $.ajax({
         url : url,
         method : "GET",
         dataType : "json",
         success : function(responseJSON) {
+            req = responseJSON;
             displayResults(responseJSON);
         },
         error : function(err) {
@@ -20,7 +29,6 @@ function fetchVideos() {
 function displayResults(responseJSON) {
     let videos = responseJSON.items;
     let results = $("#results");
-    $("#results").empty();
 
     videos.forEach((video) => {
         let videoID = video.id.videoId;
@@ -32,7 +40,21 @@ function displayResults(responseJSON) {
             <p> <a href="${url}" target="_blank">${videoTitle}</a> </p>
             <a href="${url}" target="_blank"> <img src=${img} /> </a>
         </div>`);
-    })
+    });
+}
+
+function buttons() {
+    $('#prevButton').on('click', (event) => {
+        if(req.hasOwnProperty('prevPageToken')) {
+            fetchVideos(req.prevPageToken);
+        }
+    });
+
+    $('#nextButton').on('click', (event) => {
+        if(req.hasOwnProperty('nextPageToken')) {
+            fetchVideos(req.nextPageToken);
+        }
+    });
 }
 
 function watchForm() {
@@ -41,12 +63,16 @@ function watchForm() {
     form[0].addEventListener('submit', (event) => {
         event.preventDefault();
 
-        fetchVideos();
+        $('#prevButton').toggleClass('hideButtons');
+        $('#nextButton').toggleClass('hideButtons');
+        
+        fetchVideos('');
     });
 }
 
 function init() {
     watchForm();
+    buttons();
 }
 
 init();
